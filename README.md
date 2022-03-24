@@ -24,5 +24,5 @@ il faut executer  Demo1Application depuis intellij
 
 TODO
 faire fonctionner la classe de test qui genere la documentation
-faire fonctionner le repackage pour le lancement en jar mvn clean spring-boot:repackage  
+faire fonctionner le repackage pour le lancement en jar mvn clean spring-boot:repackage  (pb de version)
 
