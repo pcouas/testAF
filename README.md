@@ -9,12 +9,15 @@ Dans les deux cas les données sont passé dans le "body" on renseigne les champ
 Un champ supplementaie pour le pays 'countryCode' a été ajouté afin de ne pas dependre d'un id interne
 
 Tests
-Il existe 3 classes de test
-* Une pour le JPA
-* Une pour le controlleru
-* Malheuresemlent celle pour generer la documentation ne fonctionne pas (pour l'instant)
+Le fichier sql data.sql contient deja quelques 'User'
+La table des pays'country' de la base H2 ne contient que FR et UK pour les pays de residence
 
-La table des pays de la base H2 ne contient que FR et UK
+Il existe 3 classes de test
+* Une pour le JPA 'DaoTests'
+* Une pour le controlleur 'Demo1ApplicationSprinBootTests'
+* Malheuresemlent celle pour generer la documentation ne fonctionne pas (pour l'instant) 'UserControllerTestGenDoc'
+
+
 
 Le projet est sous SpringBoot/Maven et les exemples postman
 il faut executer  Demo1Application depuis intellij 
