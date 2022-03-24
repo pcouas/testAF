@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class Demo1ApplicationSprinBootTests {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
     @Rule
     public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation( "target/generated-snippets" );
 
@@ -44,8 +45,8 @@ class Demo1ApplicationSprinBootTests {
      * creation utilisateur Francais
      */
     @Test
+    @DisplayName("creation utilisateur Francais")
     void whenSaved_thenNotNullFR() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         Country c = countryRepo.getByCode("FR");
         User u = new User();
         u.setUserName("newuserFR");
@@ -60,8 +61,8 @@ class Demo1ApplicationSprinBootTests {
      * Creation utilisateur Francais et relecture
      */
     @Test
+    @DisplayName("creation utilisateur Francais et relecture")
     void whenSaved_thenFindsByNameFR2() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         Country c = countryRepo.getByCode("FR");
         User u = new User();
         u.setUserName("newuserFR2");
@@ -77,7 +78,8 @@ class Demo1ApplicationSprinBootTests {
      * Pas de date pour la creation
      */
     @Test
-    void whenSaved_thenFindsByNameFR2SansDate() {
+    @DisplayName("creation utilisateur Francais sans date, on teste just retour non null")
+    void whenSaved_thenFindsByNameFR2NoDateNotNull() {
         Country c = countryRepo.getByCode("FR");
         User u = new User();
         u.setUserName("newuserFRWithoutDate");
@@ -85,11 +87,28 @@ class Demo1ApplicationSprinBootTests {
         Param p = new Param();
         p.setUser(u);
         userController.createUser(p);
-        assertNotNull(userController.getUser(u));
+        assertNotNull(userController.getUser(u)); //on test juste le retour non null
     }
 
     @Test
-    void whenSaved_thenFindsByNameFR2SansPays() {
+    @DisplayName("creation utilisateur Francais sans date  le message erreur")
+    void whenSaved_thenFindsByNameFR2NoDate() {
+        Country c = countryRepo.getByCode("FR");
+        User u = new User();
+        u.setUserName("newuserFR2D");
+        u.setCountry(c);
+        Param p = new Param();
+        p.setUser(u);
+        ResponseEntity<Error> responseEntity = userController.createUser(p);
+        assertEquals(UserService.badInputDateParameterErrorMessage, Objects.requireNonNull(responseEntity.getBody()).getMessage());
+    }
+
+    /**
+     *
+     */
+    @Test
+    @DisplayName("creation utilisateur Francais sans pays, on teste just retour non null")
+    void whenSaved_thenFindsByNameFR2WithoutCountryNotNull() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         User u = new User();
         u.setUserName("newuserWithoutCountry");
@@ -97,7 +116,20 @@ class Demo1ApplicationSprinBootTests {
         Param p = new Param();
         p.setUser(u);
         userController.createUser(p);
-        assertNotNull(userController.getUser(u));
+        assertNotNull(userController.getUser(u)); //on test juste le retour
+    }
+
+    @Test
+    @DisplayName("creation utilisateur Francais sans pays, on teste message retour")
+    void whenSaved_thenFindsByNameFR2WithoutCountryMessage() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        User u = new User();
+        u.setUserName("newuserWithoutCountry");
+        u.setBirthdate(LocalDate.parse("16/01/2001", formatter));
+        Param p = new Param();
+        p.setUser(u);
+        ResponseEntity<Error> responseEntity = userController.createUser(p);
+        assertEquals(UserService.badInputCountryParameterErrorMessage, Objects.requireNonNull(responseEntity.getBody()).getMessage());
     }
 
 
@@ -105,8 +137,8 @@ class Demo1ApplicationSprinBootTests {
      * Creation utilisateur Francais et relecture, mais avec id Country avec comparaison
      */
     @Test
+    @DisplayName("Creation utilisateur Francais et relecture, mais avec id Country avec comparaison")
     void whenSaved_thenFindsByNameFR3() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         Country c = countryRepo.getById(1L);
         User u = new User();
         u.setUserName("newuserFR3");
@@ -123,8 +155,8 @@ class Demo1ApplicationSprinBootTests {
      * Creation utilisateur avec Genre et phoneNumber
      */
     @Test
+    @DisplayName("Creation utilisateur avec Genre et phoneNumber, on test non null")
     void whenSaved_thenFindsByNameFR4() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         Country c = countryRepo.getByCode("FR");
         User u = new User();
         u.setCountry(c);
@@ -138,16 +170,12 @@ class Demo1ApplicationSprinBootTests {
         assertNotNull(userController.getUser(u));
     }
 
-
-
-
-
     /**
      * Creation utilisateur UK
      */
     @Test
+    @DisplayName("Creation utilisateur UK on test juste not null")
     void whenSaved_thenFindsByNameUKNOTNULL() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         Country c = countryRepo.getByCode("UK");
         User u = new User();
         u.setUserName("newuserUK1");
@@ -159,11 +187,11 @@ class Demo1ApplicationSprinBootTests {
     }
 
     /**
-     * NotFoundUser
+     * NotFoundUser WITH UH
      */
     @Test
+    @DisplayName("Recherche utilisateur UK on test message erreur")
     void whenGet_ByBadUserCountryUKWithErrorMessage() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         Country c = countryRepo.getByCode("UK");
         User u = new User();
         u.setUserName("newuserUK2A");
@@ -186,8 +214,8 @@ class Demo1ApplicationSprinBootTests {
      * Bad Country
      */
     @Test
+    @DisplayName("Creation utilisateur UK on test message erreur")
     void whenSaved_exceptionUKUser() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         Country c = countryRepo.getByCode("UK");
         User u = new User();
         u.setUserName("newuserUK2");
@@ -196,14 +224,14 @@ class Demo1ApplicationSprinBootTests {
         Param p = new Param();
         p.setUser(u);
         ResponseEntity<Error> responseEntity = userController.createUser(p);
-
         assertEquals(UserService.notFrenchErrormessage, Objects.requireNonNull(responseEntity.getBody()).getMessage());
     }
 
     /**
-     *
+     * too young
      */
     @Test
+    @DisplayName("creation utilisateur trop jeune, on test message erreur")
     void whenSaved_exceptionTooYoung() {
         Country c = countryRepo.getByCode("FR");
         User u = new User();
@@ -215,7 +243,6 @@ class Demo1ApplicationSprinBootTests {
         ResponseEntity<Error> responseEntity = userController.createUser(p);
         assertEquals(UserService.youngErrorMessage, Objects.requireNonNull(responseEntity.getBody()).getMessage());
     }
-
 
     /**
      * Creation utilisateur Francais et relecture, mais avec id Country
