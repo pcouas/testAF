@@ -14,4 +14,12 @@ Il existe 3 classes de test
 * Une pour le controlleru
 * Malheuresemlent celle pour generer la documentation ne fonctionne pas (pour l'instant)
 
-La table des pays ne contient que FR et UK
+La table des pays de la base H2 ne contient que FR et UK
+
+Le projet est sous SpringBoot/Maven et les exemples postman
+il faut executer  Demo1Application depuis intellij 
+
+TODO
+faire fonctionner la classe de test qui genere la documentation
+faire fonctionner le repackage pour le lancement en jar mvn clean spring-boot:repackage  
+

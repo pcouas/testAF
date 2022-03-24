@@ -6,13 +6,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
        <version>2.6.4</version>
-    <!--    <version>2.0.5.RELEASE</version> -->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.testaf</groupId>
     <artifactId>demo1</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>demo1</name>
+    <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
@@ -140,6 +140,20 @@
                         </exclude>
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!-- pose soucis en java11 org/springframework/boot/maven/RepackageMojo-->
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>spring-boot</classifier>
+                            <mainClass>
+                                com.testaf.demo1.Demo1Application
+                            </mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -161,7 +175,7 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
+         </plugins>
     </build>
 
 </project>
