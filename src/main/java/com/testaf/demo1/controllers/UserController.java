@@ -22,15 +22,10 @@ public class UserController {
 
    @Autowired
     private UserService userService;
-  //  private final UserService userService;
 
 
     @Autowired
     private CountryService countryService;
-/*
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }*/
 
     @RequestMapping("/")
     public String helloWorld() {
@@ -64,6 +59,7 @@ public class UserController {
                 }
             }
 
+            //Post postRequest = modelMapper.map(postDto, Post.class);
             return new ResponseEntity<>(userService.create(user), HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity(new Error(e.getMessage()), HttpStatus.BAD_REQUEST);

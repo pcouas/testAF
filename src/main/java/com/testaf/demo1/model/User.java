@@ -2,17 +2,17 @@ package com.testaf.demo1.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Setter
-@Getter
 @Table(name = "user")
 public class User implements Serializable {
     @Id

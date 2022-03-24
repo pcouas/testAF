@@ -1,15 +1,15 @@
 package com.testaf.demo1.model;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Setter
-@Getter
 @Table(name = "country")
 public class Country implements Serializable {
     @Id
