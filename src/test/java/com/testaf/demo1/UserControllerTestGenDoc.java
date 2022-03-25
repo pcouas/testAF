@@ -14,6 +14,7 @@ import com.testaf.demo1.services.UserService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -35,8 +36,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -81,9 +80,15 @@ public class UserControllerTestGenDoc {
 
     }
 
+    /**
+     *
+     * @throws Exception
+     *
+     * Creation
+     */
     @Test
+    @DisplayName("creation utilisateur Francais")
     public void testCreateOneUser() throws Exception {
- //TODO certains ResponseField pose soucis
         User user = new User();
         user.setBirthdate(LocalDate.parse("16/01/2001", formatter));
         user.setUserName("Hugo");
@@ -112,8 +117,12 @@ public class UserControllerTestGenDoc {
 
     }
 
-
+    /**
+     *
+     * @throws Exception
+     */
     @Test
+    @DisplayName("relecture utilisateur Francais")
     public void testGetOneUser() throws Exception {
         User mockUser = new User();
         mockUser.setId(1L);
