@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -82,7 +83,7 @@ public class UserControllerTestGenDoc {
 
     @Test
     public void testCreateOneUser() throws Exception {
-/* //TODO certains ResponseField pose soucis
+ //TODO certains ResponseField pose soucis
         User user = new User();
         user.setBirthdate(LocalDate.parse("16/01/2001", formatter));
         user.setUserName("Hugo");
@@ -95,27 +96,25 @@ public class UserControllerTestGenDoc {
 
         when(userService.create(user)).thenReturn(user);
 
-        FieldDescriptor[] userDescriptor = getUserFieldDescriptor();
-
-        this.mockMvc.perform(post("/api/user/create").content(this.objectMapper.writeValueAsString(p))
+           this.mockMvc.perform(post("/api/user/create").content(this.objectMapper.writeValueAsString(p))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.userName", is(user.getUserName())))
                 .andExpect(jsonPath("$.gender").value(Gender.M.name()))
                 .andExpect(jsonPath("$.country").value(countryFR))
+            //    .andExpect(jsonPath("$.country.code", is( user.getCountry().getCode())))
+           //     .andExpect(jsonPath("$.country.name", is( user.getCountry().getName())))
                 .andExpect(jsonPath("$.phoneNumber").value("0601020304"))
                 .andExpect(jsonPath("$.birthdate").value("2001-01-16"))
                 .andDo(document("shouldCreateUser",
-                        requestFields(userDescriptor),
-                        responseFields(userDescriptor)));
-*/
+                        requestFields(getUserFieldDescriptorPOSTRequest()),
+                        responseFields(getUserFieldDescriptorPOSTResponse())));
+
     }
 
 
     @Test
     public void testGetOneUser() throws Exception {
-        //TODO l'encodage form-data pose soucis
-/*
         User mockUser = new User();
         mockUser.setId(1L);
         mockUser.setBirthdate(LocalDate.parse("16/01/2001", formatter));
@@ -124,32 +123,42 @@ public class UserControllerTestGenDoc {
         mockUser.setCountry(countryFR);
         mockUser.setPhoneNumber("0601020304");
 
-        when(userService.findByUser(mockUser)).thenReturn(mockUser);
+        when(userService.findByUser(any(User.class))).thenReturn(mockUser);
 
         this.mockMvc.perform(RestDocumentationRequestBuilders.get("/api/user/find")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .characterEncoding(StandardCharsets.UTF_8.name())
                 .content(objectMapper.writeValueAsString(mockUser)))
-
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.userName", is( mockUser.getUserName())))
-                .andDo(document("shouldGetOneUser",
-                        pathParameters(
-                                parameterWithName("userName").description("The userName of the user to retrieve")
-                        ),
-                        responseFields(this.getUserFieldDescriptor())));
-*/
-
-
+                .andExpect(jsonPath("$.gender", is( mockUser.getGender().name())))
+                .andExpect(jsonPath("$.country.code", is( mockUser.getCountry().getCode())))
+                .andDo(document("find",
+                 requestFields(this.getUserFieldDescriptorGET()),
+                 responseFields(this.getUserFieldDescriptorGET())));
     }
 
 
-    private FieldDescriptor[] getUserFieldDescriptor() {
+    private FieldDescriptor[] getUserFieldDescriptorPOSTResponse() {
+        return new FieldDescriptor[]{fieldWithPath("birthdate").description("The birth date of the user").type(LocalDate.class.getSimpleName()),
+              fieldWithPath("userName").description("The name of the user").type(String.class.getSimpleName()),
+                fieldWithPath("gender").description("The gender of the user (F or M)").type(Gender.class.getSimpleName()),
+                fieldWithPath("phoneNumber").description("The cell phone number of the user").type(String.class.getSimpleName()),
+                fieldWithPath("id").description("The unique id of the user").optional().type(Long.class.getSimpleName()),
+               fieldWithPath("country.id").description("The internal countryId of the user").type(Long.class.getSimpleName()),
+                fieldWithPath("country.code").description("The countrycode of the user").type(String.class.getSimpleName()),
+                fieldWithPath("country.name").description("The countryName of the user").type(String.class.getSimpleName()),
+        };
+    }
+
+
+    private FieldDescriptor[] getUserFieldDescriptorPOSTRequest() {
         return new FieldDescriptor[]{fieldWithPath("user.birthdate").description("The birth date of the user").type(LocalDate.class.getSimpleName()),
                 fieldWithPath("countryCode").description("The code for external CountryCode is just for input").type(String.class.getSimpleName()),
                 fieldWithPath("user.userName").description("The name of the user").type(String.class.getSimpleName()),
                 fieldWithPath("user.gender").description("The gender of the user (F or M)").type(Gender.class.getSimpleName()),
                 fieldWithPath("user.phoneNumber").description("The cell phone number of the user").type(String.class.getSimpleName()),
+                fieldWithPath("id").description("The unique id of the user").optional().type(Long.class.getSimpleName()),
                 fieldWithPath("user.id").description("The unique id of the user").optional().type(Long.class.getSimpleName()),
                 fieldWithPath("user.country.id").description("The internal countryId of the user").type(Long.class.getSimpleName()),
                 fieldWithPath("user.country.code").description("The countrycode of the user").type(String.class.getSimpleName()),
@@ -157,6 +166,18 @@ public class UserControllerTestGenDoc {
         };
     }
 
+
+    private FieldDescriptor[] getUserFieldDescriptorGET() {
+        return new FieldDescriptor[]{fieldWithPath("birthdate").description("The birth date of the user").type(LocalDate.class.getSimpleName()),
+              fieldWithPath("userName").description("The name of the user").type(String.class.getSimpleName()),
+                fieldWithPath("gender").description("The gender of the user (F or M)").type(Gender.class.getSimpleName()),
+                fieldWithPath("phoneNumber").description("The cell phone number of the user").type(String.class.getSimpleName()),
+                fieldWithPath("id").description("The unique id of the user").optional().type(Long.class.getSimpleName()),
+                fieldWithPath("country.id").description("The internal countryId of the user").type(Long.class.getSimpleName()),
+                fieldWithPath("country.code").description("The countrycode of the user").type(String.class.getSimpleName()),
+                fieldWithPath("country.name").description("The countryName of the user").type(String.class.getSimpleName()),
+        };
+    }
 
 
 }
