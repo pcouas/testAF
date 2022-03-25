@@ -26,6 +26,8 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -35,6 +37,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -57,6 +60,10 @@ public class UserControllerTestGenDoc {
     private MockMvc mockMvc;
 
     @Autowired
+    private WebApplicationContext context;
+
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @MockBean
@@ -66,13 +73,16 @@ public class UserControllerTestGenDoc {
     private CountryRepository countryRepo;
 
     @Rule
-    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
+    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
 
     private Country countryFR;
 
 
     @Before
     public void setUp() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
+                .apply(documentationConfiguration(this.restDocumentation))
+                .build();
         countryFR = new Country();
         countryFR.setId(1L);
         countryFR.setCode("FR");
