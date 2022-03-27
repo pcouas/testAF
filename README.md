@@ -15,14 +15,13 @@ La table des pays'country' de la base H2 ne contient que FR et UK pour les pays 
 Il existe 3 classes de test
 * Une pour le JPA 'DaoTests'
 * Une pour le controlleur 'Demo1ApplicationSprinBootTests'
-* Malheuresemlent celle pour generer la documentation ne fonctionne pas (pour l'instant) 'UserControllerTestGenDoc'
+* Une clase de test pour genrer la documentation 'UserControllerTestGenDoc'
 
 
 
-Le projet est sous SpringBoot/Maven et les exemples postman
-il faut executer  Demo1Application depuis intellij 
-
-TODO
-faire fonctionner la classe de test qui genere la documentation
-faire fonctionner le repackage pour le lancement en jar mvn clean spring-boot:repackage  (pb de version)
+Le projet est sous SpringBoot/Maven 
+* Les exemples sous postman se situe dans le repertoire postman, 
+pour chacune des deux methodes il y a un sous repertoire "nominal" pour le cas qui donne les retours escomptés et un autre pour les cas d'erreurs.
+* L'application peut etre lance soit depuis l'IDE en executant la classe Demo1Application Ou java -jar target/demo1-0.0.1-SNAPSHOT.jar 
+* Une documentation des API peut etre trouve sous /target/generated-docs/index.html
 

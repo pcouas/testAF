@@ -92,7 +92,7 @@ class DaoTests {
     @DisplayName("Should give All Users")
     void whenSaved_thenGetAllDatas() {
         List<User> result=userRepo.findAll();
-       assertEquals(result.size(), 20);
+       assertEquals(result.size(), 24);
     }
 
 }

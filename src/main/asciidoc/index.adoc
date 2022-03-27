@@ -1,0 +1,116 @@
+= Sample API Documentation
+pcouas
+1.0.0, 25/03/2022
+:toc: left
+:sectnums:
+
+== Introduction
+This is an example of Spring REST Docs generated documentation for testAF.
+
+== User API
+Collection of CRUD API endpoints used to manipulate user registered in the application.
+
+=== Get User by parameter name, date, birthdate and countyrCode
+Obtains a specific user registered in the application by its userName and countryCode.
+gender and phonenumber are optional
+Country table contains only two records FR an UK
+
+
+==== Request Parameters
+include::{snippets}/find-one-user-with-country-code/request-parameters.adoc[]
+
+==== Body Parameters
+include::{snippets}/find-one-user-with-country-code/request-body.adoc[]
+
+==== Response Fields
+include::{snippets}/find-one-user-with-country-code/response-fields.adoc[]
+
+==== Sample Request
+include::{snippets}/find-one-user-with-country-code/http-request.adoc[]
+
+==== Sample Response
+include::{snippets}/find-one-user-with-country-code/http-response.adoc[]
+
+==== CURL sample
+include::{snippets}/find-one-user-with-country-code/curl-request.adoc[]
+
+=== Get User by parameter name, date, birthdate and country.id
+Obtains a specific user registered in the application by its userName and country.id.
+gender and phonenumber are optional
+
+
+==== Request Parameters
+include::{snippets}/find-one-user-with-country-table-id/request-fields.adoc[]
+
+==== Body Parameters
+include::{snippets}/find-one-user-with-country-table-id/request-body.adoc[]
+
+==== Response Fields
+include::{snippets}/find-one-user-with-country-table-id/response-fields.adoc[]
+
+==== Sample Request
+include::{snippets}/find-one-user-with-country-table-id/http-request.adoc[]
+
+==== Sample Response
+include::{snippets}/find-one-user-with-country-table-id/http-response.adoc[]
+
+==== CURL sample
+include::{snippets}/find-one-user-with-country-table-id/curl-request.adoc[]
+
+
+
+
+=== Create User with parameter name, birthdate with countryCode
+Create a specific user registered in the application.
+
+
+
+==== Request Parameters
+include::{snippets}/create-one-user-with-country-code/request-fields.adoc[]
+
+==== Body Parameters
+include::{snippets}/create-one-user-with-country-code/request-body.adoc[]
+
+==== Response Fields
+include::{snippets}/create-one-user-with-country-code/response-fields.adoc[]
+
+==== Sample Request
+include::{snippets}/create-one-user-with-country-code/http-request.adoc[]
+
+==== Sample Response
+include::{snippets}/create-one-user-with-country-code/http-response.adoc[]
+
+==== CURL sample
+include::{snippets}/create-one-user-with-country-code/curl-request.adoc[]
+
+
+
+=== Create User with parameter name, birthdate and country.id
+Create a specific user registered in the application.
+
+
+
+==== Request Parameters
+include::{snippets}/create-one-user-with-country-table-id/request-fields.adoc[]
+
+==== Body Parameters
+include::{snippets}/create-one-user-with-country-table-id/request-body.adoc[]
+
+==== Response Fields
+include::{snippets}/create-one-user-with-country-table-id/response-fields.adoc[]
+
+==== Sample Request
+include::{snippets}/create-one-user-with-country-table-id/http-request.adoc[]
+
+==== Sample Response
+include::{snippets}/create-one-user-with-country-table-id/http-response.adoc[]
+
+==== CURL sample
+include::{snippets}/create-one-user-with-country-table-id/curl-request.adoc[]
+
+
+
+
+
+
+

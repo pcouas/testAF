@@ -1,6 +1,8 @@
 package com.testaf.demo1.services;
 
+import com.testaf.demo1.model.Country;
 import com.testaf.demo1.model.User;
+import com.testaf.demo1.repo.CountryRepository;
 import com.testaf.demo1.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -41,6 +43,10 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private CountryRepository countryRepo;
+
     /**
      * @param user
      * @return
@@ -56,7 +62,8 @@ public class UserService {
             throw new IllegalArgumentException(badInputParameterErrorMessage);
         }
 
-        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnorePaths("id");
+       ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnorePaths("id");
+
         Example<User> example = Example.of(user, exampleMatcher);
 
         long count = userRepo.count(example);
@@ -142,13 +149,23 @@ public class UserService {
                 throw new IllegalArgumentException(badInputCountryParameterErrorMessage);
             }
 
-            if (france.equals(user.getCountry().getCode())) {
-                log.debug("PARAM OK");
-                return;
-             } else {
-                log.info("probleme validation parametres country:{}", user.getCountry().getCode());
-                throw new IllegalArgumentException(notFrenchErrormessage);
+
+            //---- test pays existe déja
+            try {
+                Country country =null;
+                if(user.getCountry().getId()>0l)
+                    country =  countryRepo.getById(user.getCountry().getId());
+                    if (country!=null && france.equals(country.getCode())) {
+                    log.debug("PARAM OK");
+                    return;
+                } else {
+                    log.info("probleme validation parametres country:{}", user.getCountry().getCode());
+                    throw new IllegalArgumentException(notFrenchErrormessage);
+                }
+            }catch(Exception e){
+                throw new IllegalArgumentException(badInputCountryParameterErrorMessage);
             }
+
         }
         log.error("Parametres entree KO");
         throw new IllegalArgumentException(badInputParameterErrorMessage);
